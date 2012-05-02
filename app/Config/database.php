@@ -79,5 +79,14 @@ class DATABASE_CONFIG {
 		'database' => '',
 		'prefix' => '',
 		//'encoding' => 'utf8',
-	);
+  );
+
+  public function __construct(){
+    $services = json_decode($_SERVER["VCAP_SERVICES"],true);
+    $mysql_config = $services["mysql-5.1"][0]["credentials"];
+    $this->default['host'] = $mysql_config['hostname'];
+    $this->default['login'] = $mysql_config['username'];
+    $this->default['password'] = $mysql_config['password'];
+    $this->default['database'] = $mysql_config['name'];
+  }
 }
